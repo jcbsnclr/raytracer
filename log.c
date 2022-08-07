@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <assert.h>
 
 static FILE *outp;
 static enum log_level filter = LOG_INFO;
@@ -42,6 +43,10 @@ void logger_vlog(
     char *fmt,
     va_list args
 ) {
+    assert(file != NULL);
+    assert(func != NULL);
+    assert(fmt != NULL);
+
     // get timestamp as YYYY-MM-DD hh:mm
     time_t cur_time = time(NULL);
 
