@@ -8,7 +8,7 @@ COBJ=$(patsubst %.c, $(BUILDDIR)/%.c.o, $(CSRC))
 CDEF=$(patsubst %.c, $(BUILDDIR)/%.c.d, $(CSRC))
 
 CFLAGS+=-Og -g -Wall -Werror -Wextra -I. -c -MMD 
-LFLAGS+=
+LFLAGS+=-lm
 
 DEPS=sdl2
 

@@ -19,15 +19,16 @@ static char *level_table[] = {
 void logger_init(char *outp_path, enum log_level level) {
     filter = level;
 
-    // if no path is provided, default to /dev/null
-    if (!outp_path)
-        outp_path = "/dev/null";
-    
-    // open output file for writing, create if doesn't exist
-    outp = fopen(outp_path, "w+");
+    // if no path is provided, don't write to file
+    if (outp_path) {
+        // open output file for writing, create if doesn't exist
+        outp = fopen(outp_path, "w+");
 
-    if (!outp)
-        die("logger_init");
+        if (!outp)
+            die("logger_init");
+    } else {
+        outp = NULL;
+    }
 }
 
 void logger_free() {
@@ -84,7 +85,8 @@ void logger_vlog(
         fwrite(tmp_buf, 1, tmp_buf_len, stderr);
     
     // write message to file
-    fwrite(tmp_buf, 1, tmp_buf_len, outp);
+    if (outp)
+        fwrite(tmp_buf, 1, tmp_buf_len, outp);
 
     // free temporary buffer
     free(tmp_buf);
